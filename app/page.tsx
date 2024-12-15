@@ -1,19 +1,5 @@
 import EventCard from "@/components/EventCard";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { getEvents } from "@/lib/events";
-import Image from "next/image";
 
 export default async function Home() {
   const data = await getEvents();
