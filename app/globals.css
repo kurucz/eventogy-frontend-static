@@ -116,6 +116,6 @@
 
 @layer components {
   .popover-btn {
-    @apply bg-popover text-popover-foreground grid grid-cols-[auto_1fr] p-2 gap-2 hover:bg-slate-100 w-full;
+    @apply bg-popover text-popover-foreground grid grid-cols-[auto_1fr] text-left p-4 gap-4 hover:bg-slate-100 w-full;
   }
 }

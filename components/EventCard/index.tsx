@@ -11,6 +11,14 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import Link from "next/link";
 import { archive, duplicate } from "./actions";
 import { Badge } from "../ui/badge";
+import {
+  Archive,
+  BookCopy,
+  DraftingCompass,
+  Earth,
+  Ellipsis,
+  Settings,
+} from "lucide-react";
 
 export default function EventCard({
   id,
@@ -30,7 +38,7 @@ export default function EventCard({
   status: string;
 }) {
   return (
-    <Card key={id} className="grid grid-rows-[auto_1fr_auto] overflow-hidden">
+    <Card key={id} className="grid overflow-hidden">
       <CardHeader>
         <div className="relative -m-6 mb-0">
           <Image
@@ -46,15 +54,15 @@ export default function EventCard({
           <StatusBadge status={status} />
         </CardDescription>
       </CardHeader>
-      {location || date ? (
-        <CardContent>
-          {date ? <p>{date}</p> : null}
-          {location ? <p>{location}</p> : null}
-        </CardContent>
-      ) : null}
-      <CardFooter>
+      <CardContent>
+        {date ? <p>{date}</p> : null}
+        {location ? <p>{location}</p> : null}
+      </CardContent>
+      <CardFooter className="justify-end">
         <Popover>
-          <PopoverTrigger>Open</PopoverTrigger>
+          <PopoverTrigger>
+            <Ellipsis />
+          </PopoverTrigger>
           <PopoverContent className="grid grid-cols-1 gap-2">
             <SettingsButton slug={slug} />
             <DuplicateButton id={id} />
@@ -68,11 +76,21 @@ export default function EventCard({
 
 const StatusBadge = ({ status }: { status: string }) => {
   if (status === "live") {
-    return <Badge variant="live">Live</Badge>;
+    return (
+      <Badge variant="live">
+        <Earth size={12} />
+        Live
+      </Badge>
+    );
   }
 
   if (status === "draft") {
-    return <Badge variant="draft">Draft</Badge>;
+    return (
+      <Badge variant="draft">
+        <DraftingCompass size={12} />
+        Draft
+      </Badge>
+    );
   }
 
   return null;
@@ -81,6 +99,7 @@ const StatusBadge = ({ status }: { status: string }) => {
 const SettingsButton = ({ slug }: { slug: string }) => {
   return (
     <Link className="popover-btn" href={`/events/${slug}`}>
+      <Settings />
       <span>Settings</span>
     </Link>
   );
@@ -91,7 +110,8 @@ const DuplicateButton = ({ id }: { id: string }) => {
   return (
     <form className="w-full" action={duplicateEventWithId}>
       <button type="submit" className="popover-btn">
-        Duplicate
+        <BookCopy />
+        <span>Duplicate</span>
       </button>
     </form>
   );
@@ -102,7 +122,8 @@ const ArchiveButton = ({ id }: { id: string }) => {
   return (
     <form className="w-full" action={archiveEventWithId}>
       <button type="submit" className="popover-btn">
-        Archive
+        <Archive />
+        <span>Archive</span>
       </button>
     </form>
   );
