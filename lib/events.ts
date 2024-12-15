@@ -87,6 +87,7 @@ function transformEvents(events: Event[]) {
  */
 export async function getEvents() {
   try {
+    // await delay(1000); // Simulate a delay
     const { data } = await fetchEvents();
     return {
       events: data.events ? transformEvents(data.events) : null,
@@ -97,3 +98,7 @@ export async function getEvents() {
     return null;
   }
 }
+
+// function delay(ms: number) {
+//   return new Promise((resolve) => setTimeout(resolve, ms));
+// }
