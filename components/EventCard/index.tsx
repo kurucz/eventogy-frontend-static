@@ -28,7 +28,10 @@ export default function EventCard({
   status: string;
 }) {
   return (
-    <Card key={id} className="overflow-hidden grid grid-rows-[auto_1fr_auto]">
+    <Card
+      key={id}
+      className="relative after:block after:h-2 after:w-full after:left-0 after:absolute after:bg-gray-100 after:bottom-0 overflow-hidden grid grid-rows-[auto_1fr_auto]"
+    >
       <CardHeader className="gap-2">
         <div className="relative -m-6 mb-0">
           <Image
@@ -45,7 +48,7 @@ export default function EventCard({
         <CardTitle>{name}</CardTitle>
       </CardHeader>
       {date || location ? (
-        <CardContent className="text-slate-500">
+        <CardContent className="text-slate-500 text-sm">
           {date ? <p>{date}</p> : null}
           {location ? <p>{location}</p> : null}
         </CardContent>
