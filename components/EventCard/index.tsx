@@ -10,6 +10,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import Link from "next/link";
 import { archive, duplicate } from "./actions";
+import { Badge } from "../ui/badge";
 
 export default function EventCard({
   id,
@@ -41,7 +42,9 @@ export default function EventCard({
           />
         </div>
         <CardTitle>{name}</CardTitle>
-        <CardDescription>{status}</CardDescription>
+        <CardDescription>
+          <StatusBadge status={status} />
+        </CardDescription>
       </CardHeader>
       {location || date ? (
         <CardContent>
@@ -62,6 +65,18 @@ export default function EventCard({
     </Card>
   );
 }
+
+const StatusBadge = ({ status }: { status: string }) => {
+  if (status === "live") {
+    return <Badge variant="live">Live</Badge>;
+  }
+
+  if (status === "draft") {
+    return <Badge variant="draft">Draft</Badge>;
+  }
+
+  return null;
+};
 
 const SettingsButton = ({ slug }: { slug: string }) => {
   return (
