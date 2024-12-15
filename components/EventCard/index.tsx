@@ -9,6 +9,7 @@ import {
 } from "../ui/card";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import Link from "next/link";
+import { archive, duplicate } from "./actions";
 
 export default function EventCard({
   id,
@@ -51,7 +52,7 @@ export default function EventCard({
       <CardFooter>
         <Popover>
           <PopoverTrigger>Open</PopoverTrigger>
-          <PopoverContent className="flex flex-col gap-2">
+          <PopoverContent className="grid grid-cols-1 gap-2">
             <SettingsButton slug={slug} />
             <DuplicateButton id={id} />
             <ArchiveButton id={id} />
@@ -71,9 +72,23 @@ const SettingsButton = ({ slug }: { slug: string }) => {
 };
 
 const DuplicateButton = ({ id }: { id: string }) => {
-  return <button className="popover-btn">Duplicate</button>;
+  const duplicateEventWithId = duplicate.bind(null, id);
+  return (
+    <form className="w-full" action={duplicateEventWithId}>
+      <button type="submit" className="popover-btn">
+        Duplicate
+      </button>
+    </form>
+  );
 };
 
 const ArchiveButton = ({ id }: { id: string }) => {
-  return <button className="popover-btn">Archive</button>;
+  const archiveEventWithId = archive.bind(null, id);
+  return (
+    <form className="w-full" action={archiveEventWithId}>
+      <button type="submit" className="popover-btn">
+        Archive
+      </button>
+    </form>
+  );
 };
