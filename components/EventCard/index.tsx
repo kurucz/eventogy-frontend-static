@@ -2,23 +2,13 @@ import Image from "next/image";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import Link from "next/link";
-import { archive, duplicate } from "./actions";
-import { Badge } from "../ui/badge";
-import {
-  Archive,
-  BookCopy,
-  DraftingCompass,
-  Earth,
-  Ellipsis,
-  Settings,
-} from "lucide-react";
+
+import StatusBadge from "./StatusBadge";
+import Menu from "./Menu";
 
 export default function EventCard({
   id,
@@ -38,8 +28,8 @@ export default function EventCard({
   status: string;
 }) {
   return (
-    <Card key={id} className="grid overflow-hidden">
-      <CardHeader>
+    <Card key={id} className="overflow-hidden grid grid-rows-[auto_1fr_auto]">
+      <CardHeader className="gap-2">
         <div className="relative -m-6 mb-0">
           <Image
             alt={image.alt}
@@ -49,82 +39,20 @@ export default function EventCard({
             className="w-full h-32 object-cover"
           />
         </div>
-        <CardTitle>{name}</CardTitle>
-        <CardDescription>
+        <div>
           <StatusBadge status={status} />
-        </CardDescription>
+        </div>
+        <CardTitle>{name}</CardTitle>
       </CardHeader>
-      <CardContent>
-        {date ? <p>{date}</p> : null}
-        {location ? <p>{location}</p> : null}
-      </CardContent>
-      <CardFooter className="justify-end">
-        <Popover>
-          <PopoverTrigger>
-            <Ellipsis />
-          </PopoverTrigger>
-          <PopoverContent className="grid grid-cols-1 gap-2">
-            <SettingsButton slug={slug} />
-            <DuplicateButton id={id} />
-            <ArchiveButton id={id} />
-          </PopoverContent>
-        </Popover>
+      {date || location ? (
+        <CardContent className="text-slate-500">
+          {date ? <p>{date}</p> : null}
+          {location ? <p>{location}</p> : null}
+        </CardContent>
+      ) : null}
+      <CardFooter className="justify-end self-end">
+        <Menu id={id} slug={slug} />
       </CardFooter>
     </Card>
   );
 }
-
-const StatusBadge = ({ status }: { status: string }) => {
-  if (status === "live") {
-    return (
-      <Badge variant="live">
-        <Earth size={12} />
-        Live
-      </Badge>
-    );
-  }
-
-  if (status === "draft") {
-    return (
-      <Badge variant="draft">
-        <DraftingCompass size={12} />
-        Draft
-      </Badge>
-    );
-  }
-
-  return null;
-};
-
-const SettingsButton = ({ slug }: { slug: string }) => {
-  return (
-    <Link className="popover-btn" href={`/events/${slug}`}>
-      <Settings />
-      <span>Settings</span>
-    </Link>
-  );
-};
-
-const DuplicateButton = ({ id }: { id: string }) => {
-  const duplicateEventWithId = duplicate.bind(null, id);
-  return (
-    <form className="w-full" action={duplicateEventWithId}>
-      <button type="submit" className="popover-btn">
-        <BookCopy />
-        <span>Duplicate</span>
-      </button>
-    </form>
-  );
-};
-
-const ArchiveButton = ({ id }: { id: string }) => {
-  const archiveEventWithId = archive.bind(null, id);
-  return (
-    <form className="w-full" action={archiveEventWithId}>
-      <button type="submit" className="popover-btn">
-        <Archive />
-        <span>Archive</span>
-      </button>
-    </form>
-  );
-};
